@@ -1,8 +1,7 @@
 import React, { useState, useReducer } from "react";
 import { reducer, initialState } from "../reducers/reducerFile";
-import { TodoListPage } from "./todoListPage";
 
-export const TodoForm = (props) => {
+const TodoForm = () => {
   const [newItem, setNewItem] = useState("");
   const [state, dispatch] = useReducer(reducer, initialState);
   //^^these are imported from your reducer file.
@@ -11,32 +10,31 @@ export const TodoForm = (props) => {
     setNewItem(e.target.value);
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    dispatch({ type: "ADD_TODO", payload: newItem });
-    // setNewItem("Add ToDo");
-    
-  };
+console.log("state", state)
+
 
   return (
     <div>
-      <form className="formMain">
+     
         <input
+        key={newItem.id}
           type="text"
           placeholder="Add ToDo"
           className="inputField"
           value={newItem}
           onChange={handleChange}
-        ></input>
-        <button
-          type="submit"
-          onClick={handleSubmit}
-        >
+        />
+        <button onClick={() =>{ dispatch({ type: "ADD_TODO", payload: newItem })}}>
           Click Me To Add
         </button>
-      </form>
-      <TodoListPage
-      item={state.todoList} />
+       
+      <h1>
+        {state.todoList.map(todoItem => 
+              <div> {todoItem.item} </div>
+          )}
+        </h1>
     </div>
   );
 };
+
+export default TodoForm;
