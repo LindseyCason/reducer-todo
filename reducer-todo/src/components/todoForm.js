@@ -1,5 +1,6 @@
 import React, { useState, useReducer } from "react";
 import { reducer, initialState } from "../reducers/reducerFile";
+import './todoFormCSS.css';
 
 const TodoForm = () => {
   const [newItem, setNewItem] = useState("");
@@ -14,25 +15,33 @@ console.log("state", state)
 
 
   return (
-    <div>
-     
+    <div className="chickenfoot">
+        
+     <section className = "chickenfeet">
+         <h1>What To Do Next?</h1>
         <input
         key={newItem.id}
           type="text"
-          placeholder="Add ToDo"
+          placeholder="Add To Do Items"
           className="inputField"
           value={newItem}
           onChange={handleChange}
         />
-        <button onClick={() =>{ dispatch({ type: "ADD_TODO", payload: newItem })}}>
-          Click Me To Add
+        <button onClick={() =>{ dispatch({ type: "ADD_TODO", payload: newItem }); setNewItem("")}}>
+          ADD ITEM
         </button>
        
       <h1>
         {state.todoList.map(todoItem => 
-              <div> {todoItem.item} </div>
+              <div className= {todoItem.completed ? "completed" : ""} onClick ={() => dispatch({ type: "TOGGLE_COMPLETED", payload: todoItem.id})}> {todoItem.item} </div>
           )}
         </h1>
+
+        <button onClick={() =>{ dispatch({ type: "CLEAR_COMPLETED" });
+        setNewItem("")}}>
+          CLEAR COMPLETED
+        </button>
+    </section>
     </div>
   );
 };
